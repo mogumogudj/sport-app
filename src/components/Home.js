@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, FlatList, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, FlatList, Image, TouchableOpacity } from 'react-native';
 
 import axios from 'axios';
 
@@ -29,6 +29,11 @@ const styles = StyleSheet.create({
         padding: 10,
     },
 
+    imageAndButtonWrapper: {
+        justifyContent: 'center',
+        alignContent: 'center',
+    },
+
     imageWrapper: {
         flex: 1,
     },
@@ -39,6 +44,18 @@ const styles = StyleSheet.create({
 
     text: {
         marginVertical: 5,
+    },
+
+    addButton: {
+        marginTop: 10,
+        backgroundColor: 'lightgreen',
+        padding: 4,
+    },
+    
+    addButtonText: {
+        fontSize: 20,
+        color: '#FFFFFF',
+        textAlign: 'center',
     },
 });
 
@@ -62,11 +79,18 @@ const Home = () => {
 
     const renderItem = ({item})=> (
         <View style={styles.wrapper}>
+            <View style={styles.imageAndButtonWrapper}>
             <View style={styles.imageWrapper}>
                 <Image source={{uri: item.image}}
                 style={styles.image}
                 resizeMode='contain'
                 />
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.addButton}>
+                        <Text style={styles.addButtonText}>Add To Favourites</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={styles.textWrapper}>
                  <Text style={styles.text}> {item.title} </Text>
