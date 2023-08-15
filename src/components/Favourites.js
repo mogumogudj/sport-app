@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, SafeAreaView, Text  } from 'react-native';
+import { useFavouritesContext } from './context/favouritesContext';
 
 
 const styles = StyleSheet.create({
@@ -12,6 +13,10 @@ const styles = StyleSheet.create({
 });
 
 const Favourites = () => {
+
+    const {favourites} = useFavouritesContext();
+
+    alert(favourites.length);
     return (
       <SafeAreaView style={styles.root}>
       <View>
