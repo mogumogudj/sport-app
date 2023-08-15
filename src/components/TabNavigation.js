@@ -11,15 +11,15 @@ const Tab = createMaterialBottomTabNavigator();
 const MyTabs = () => {
     return (
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="Products"
         activeColor="black"
         barStyle={{ backgroundColor: 'tomato' }}
       >
         <Tab.Screen
-          name="Home"
+          name="Products"
           component={Home}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Products',
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="home" color={color} size={26} />
             ),
