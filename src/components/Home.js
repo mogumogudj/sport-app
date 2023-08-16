@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, FlatList, Image, TouchableOpacity } from 'react-native';
-
+import { useFavouritesContext } from './context/favouritesContext';
 import axios from 'axios';
 
 
@@ -65,6 +65,8 @@ const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const {addFavouritesHandler} = useFavouritesContext();
+
     useEffect(() => {
         setLoading(true);
 
@@ -88,7 +90,10 @@ const Home = () => {
                 </View>
                 <View>
                     <TouchableOpacity style={styles.addButton}>
-                        <Text style={styles.addButtonText}>Add To Favourites</Text>
+                        <Text 
+                        style={styles.addButtonText} 
+                        onPress={() => addFavouritesHandler(item)}>
+                        Add To Favourites</Text>
                     </TouchableOpacity>
                 </View>
             </View>

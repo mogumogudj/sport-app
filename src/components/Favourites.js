@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, SafeAreaView, Text  } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Text, FlatList } from 'react-native';
 import { useFavouritesContext } from './context/favouritesContext';
 
 
@@ -9,6 +9,11 @@ const styles = StyleSheet.create({
         padding: 5,
         backgroundColor: '#FFFFFF',
     },
+    noFavouritesView: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    }
     
 });
 
@@ -19,9 +24,13 @@ const Favourites = () => {
     alert(favourites.length);
     return (
       <SafeAreaView style={styles.root}>
-      <View>
-        <Text>Favourites</Text>
-        </View>
+        {favourites.length > 0 ? (
+        <FlatList/> 
+        ) : (
+      <View style={styles.noFavouritesView}>
+        <Text>Favourite are empty! Please add new favourites.</Text>
+      </View> 
+       )}
       </SafeAreaView>
     );
   };
