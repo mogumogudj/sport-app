@@ -103,7 +103,7 @@ const Home = () => {
                  <Text style={styles.text}> {item.price} </Text>
             </View>
         </View>
-    )
+    );
     
     return (
       <SafeAreaView style={styles.root}>

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, SafeAreaView, Text, FlatList } from 'react-native';
+import { StyleSheet, View, SafeAreaView, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useFavouritesContext } from './context/favouritesContext';
 
 
@@ -9,23 +9,99 @@ const styles = StyleSheet.create({
         padding: 5,
         backgroundColor: '#FFFFFF',
     },
+
     noFavouritesView: {
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-    }
+    },
+
+    image: {
+      width: 180,
+      height: 180,
+  },
+
+  wrapper: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginVertical: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: '#dedede',
+      padding: 10,
+  },
+
+  imageAndButtonWrapper: {
+      justifyContent: 'center',
+      alignContent: 'center',
+  },
+
+  imageWrapper: {
+      flex: 1,
+  },
+
+  textWrapper: {
+      flex: 1,
+  },
+
+  text: {
+      marginVertical: 5,
+  },
+
+  addButton: {
+      marginTop: 10,
+      backgroundColor: 'lightgreen',
+      padding: 4,
+  },
+  
+  addButtonText: {
+      fontSize: 20,
+      color: '#FFFFFF',
+      textAlign: 'center',
+  },
     
 });
 
 const Favourites = () => {
 
-    const {favourites} = useFavouritesContext();
+    const {favourites, removeFromFavouritesHandler} = useFavouritesContext();
+
+    const renderItem = ({item})=> (
+      <View style={styles.wrapper}>
+          <View style={styles.imageAndButtonWrapper}>
+          <View style={styles.imageWrapper}>
+              <Image source={{uri: item.image}}
+              style={styles.image}
+              resizeMode='contain'
+              />
+              </View>
+              <View>
+                  <TouchableOpacity style={styles.addButton} onPress={()=>removeFromFavouritesHandler(item)}>
+                      <Text 
+                      style={styles.addButtonText} >
+                      Remove item</Text>
+                  </TouchableOpacity>
+              </View>
+          </View>
+          <View style={styles.textWrapper}>
+               <Text style={styles.text}> {item.title} </Text>
+               <Text style={styles.text}> {item.description} </Text>
+               <Text style={styles.text}> {item.price} </Text>
+          </View>
+      </View>
+  );
+
+
+
 
     alert(favourites.length);
     return (
       <SafeAreaView style={styles.root}>
         {favourites.length > 0 ? (
-        <FlatList/> 
+        <FlatList data={favourites} 
+        keyExtractor={element => element.id} 
+        renderItem={renderItem}
+        />    
         ) : (
       <View style={styles.noFavouritesView}>
         <Text>Favourite are empty! Please add new favourites.</Text>
