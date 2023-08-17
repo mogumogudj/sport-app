@@ -111,8 +111,9 @@ const Home = () => {
         .then(async res => {
           const productsData = await Promise.all(
             res.data.map(async product => {
-              const imageUrl = product.custom_fields.url; // Use the new 'url' field
-              return { ...product, imageUrl };
+                const imageId = product.custom_fields.image;
+                const imageUrl = await fetchImageURL(imageId); // Implement fetchImageURL function
+                return { ...product, imageUrl };
             })
           );
           setProducts(productsData);
@@ -122,7 +123,15 @@ const Home = () => {
     }, []);
   
 
-    
+    const fetchImageURL = async (imageId) => {
+        try {
+          const response = await axios.get(`https://www.pearlvintagestore.com/wp-json/wp/v2/media/${imageId}`);
+          return response.data.source_url; // Assuming the image URL is available in the "source_url" field
+        } catch (error) {
+          console.error("Error fetching image URL:", error);
+          return null;
+        }
+      };
 
         
     const renderItem = ({ item }) => (
