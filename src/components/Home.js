@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useFavouritesContext } from './context/favouritesContext';
 import axios from 'axios';
+import Categories from './Categories';
+
 
 
 const styles = StyleSheet.create({
@@ -66,6 +68,13 @@ const styles = StyleSheet.create({
         marginTop: 12,
     },
 
+    category: {
+        fontSize: 12,
+        color: 'black',
+        fontWeight: "800",
+        marginTop: 12,
+    },
+
     addButton: {
         marginTop: 10,
         backgroundColor: 'lightgreen',
@@ -85,6 +94,7 @@ const styles = StyleSheet.create({
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(null);
   
     const { favourites, addFavouritesHandler, removeFromFavouritesHandler } = useFavouritesContext();
   
@@ -111,6 +121,10 @@ const Home = () => {
         .finally(() => setLoading(false));
     }, []);
   
+
+    
+
+        
     const renderItem = ({ item }) => (
       <View style={styles.wrapper}>
         <View style={styles.imageAndButtonWrapper}>
@@ -138,10 +152,19 @@ const Home = () => {
           <Text style={styles.title} > {item.title.rendered} </Text>
           <Text style={styles.description}>{item.custom_fields.description} </Text>
           <Text style={styles.price}> €{item.custom_fields.price} </Text>
+          {/* <Text style={styles.category}>{item.custom_fields.category} </Text> */}
           </View>
         </View>
       </View>
     );
+
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+      };
+
+      const filteredProducts = selectedCategory
+    ? products.filter(product => product.custom_fields.category === selectedCategory)
+    : products;
   
     return (
       <SafeAreaView style={styles.root}>
@@ -150,11 +173,14 @@ const Home = () => {
             <ActivityIndicator size={'large'} color={'black'} />
           </View>
         ) : (
+            <View>
+                <Categories onSelectCategory={handleCategorySelect} />
           <FlatList
-            data={products}
+            data={filteredProducts}
             keyExtractor={element => element.id}
             renderItem={renderItem}
           />
+          </View>
         )}
       </SafeAreaView>
     );

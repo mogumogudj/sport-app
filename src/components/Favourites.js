@@ -59,6 +59,33 @@ const styles = StyleSheet.create({
       color: '#FFFFFF',
       textAlign: 'center',
   },
+
+  title: {
+    fontSize: 28,
+    color: 'tomato',
+    fontWeight: "900",
+    marginRight: 16,
+},
+
+description: {
+    fontSize: 14,
+    color: 'black',
+    fontWeight: "400",
+},
+
+price: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: "800",
+    marginTop: 12,
+},
+
+category: {
+    fontSize: 12,
+    color: 'black',
+    fontWeight: "800",
+    marginTop: 12,
+},
     
 });
 
@@ -84,9 +111,9 @@ const Favourites = () => {
               </View>
           </View>
           <View style={styles.textWrapper}>
-               <Text style={styles.text}> {item.acf.title} </Text>
-               <Text style={styles.text}> {item.acf.description} </Text>
-               <Text style={styles.text}> {item.acf.price} </Text>
+          <Text style={styles.title} > {item.title.rendered} </Text>
+          <Text style={styles.description}>{item.custom_fields.description} </Text>
+          <Text style={styles.price}> €{item.custom_fields.price} </Text>
           </View>
       </View>
   );
