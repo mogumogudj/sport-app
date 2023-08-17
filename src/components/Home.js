@@ -65,7 +65,12 @@ const Home = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const {addFavouritesHandler} = useFavouritesContext();
+    const {favourites, addFavouritesHandler, removeFromFavouritesHandler} = useFavouritesContext();
+
+    const checker = item => {
+        const boolen = favourites.some((element)=> element.id === item.id);
+        return boolen;
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -89,12 +94,16 @@ const Home = () => {
                 />
                 </View>
                 <View>
+                    
                     <TouchableOpacity style={styles.addButton}>
                         <Text 
                         style={styles.addButtonText} 
-                        onPress={() => addFavouritesHandler(item)}>
-                        Add To Favourites</Text>
+                        onPress={() => checker(item) 
+                        ? removeFromFavouritesHandler(item) 
+                        : addFavouritesHandler(item)
+                        }> {checker(item) ? 'Remove item' : 'Add to Favourites'}</Text>
                     </TouchableOpacity>
+
                 </View>
             </View>
             <View style={styles.textWrapper}>
