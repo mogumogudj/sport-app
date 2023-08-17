@@ -61,31 +61,31 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 28,
-    color: 'tomato',
-    fontWeight: "900",
-    marginRight: 16,
-},
+        fontSize: 28,
+        color: 'tomato',
+        fontWeight: "900",
+        marginRight: 16,
+    },
 
-description: {
-    fontSize: 14,
-    color: 'black',
-    fontWeight: "400",
-},
+    description: {
+        fontSize: 14,
+        color: 'black',
+        fontWeight: "400",
+    },
 
-price: {
-    fontSize: 20,
-    color: 'black',
-    fontWeight: "800",
-    marginTop: 12,
-},
+    price: {
+        fontSize: 20,
+        color: 'black',
+        fontWeight: "800",
+        marginTop: 12,
+    },
 
-category: {
-    fontSize: 12,
-    color: 'black',
-    fontWeight: "800",
-    marginTop: 12,
-},
+    category: {
+        fontSize: 12,
+        color: 'black',
+        fontWeight: "800",
+        marginTop: 12,
+    },
     
 });
 
@@ -121,7 +121,7 @@ const Favourites = () => {
 
 
 
-    alert(favourites.length);
+    // alert(favourites.length);
     return (
       <SafeAreaView style={styles.root}>
         {favourites.length > 0 ? (

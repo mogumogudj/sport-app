@@ -124,14 +124,14 @@ const Home = () => {
   
 
     const fetchImageURL = async (imageId) => {
-        try {
-          const response = await axios.get(`https://www.pearlvintagestore.com/wp-json/wp/v2/media/${imageId}`);
-          return response.data.source_url; // Assuming the image URL is available in the "source_url" field
-        } catch (error) {
-          console.error("Error fetching image URL:", error);
-          return null;
-        }
-      };
+  try {
+    const response = await axios.get(`https://www.pearlvintagestore.com/wp-json/wp/v2/media/${imageId}`);
+    return response.data.source_url; // Assuming the image URL is available in the "source_url" field
+  } catch (error) {
+    console.error("Error fetching image URL:", error);
+    return null;
+  }
+};
 
         
     const renderItem = ({ item }) => (
