@@ -46,6 +46,26 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
 
+    title: {
+        fontSize: 28,
+        color: 'tomato',
+        fontWeight: "900",
+        marginRight: 16,
+    },
+
+    description: {
+        fontSize: 14,
+        color: 'black',
+        fontWeight: "400",
+    },
+
+    price: {
+        fontSize: 20,
+        color: 'black',
+        fontWeight: "800",
+        marginTop: 12,
+    },
+
     addButton: {
         marginTop: 10,
         backgroundColor: 'lightgreen',
@@ -59,76 +79,85 @@ const styles = StyleSheet.create({
     },
 });
 
+
+
+
 const Home = () => {
-
-
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    const {favourites, addFavouritesHandler, removeFromFavouritesHandler} = useFavouritesContext();
-
+  
+    const { favourites, addFavouritesHandler, removeFromFavouritesHandler } = useFavouritesContext();
+  
     const checker = item => {
-        const boolen = favourites.some((element)=> element.id === item.id);
-        return boolen;
+      const boolen = favourites.some((element) => element.id === item.id);
+      return boolen;
     };
-
+  
     useEffect(() => {
-        setLoading(true);
-
-        axios
-        .get("https://fakestoreapi.com/products")
-        .then(res => {
-            setProducts(res.data);
+      setLoading(true);
+  
+      axios
+        .get("https://www.pearlvintagestore.com/wp-json/wp/v2/product")
+        .then(async res => {
+          const productsData = await Promise.all(
+            res.data.map(async product => {
+              const imageUrl = product.custom_fields.url; // Use the new 'url' field
+              return { ...product, imageUrl };
+            })
+          );
+          setProducts(productsData);
         })
         .catch(e => console.log(e))
         .finally(() => setLoading(false));
     }, []);
-
-    const renderItem = ({item})=> (
-        <View style={styles.wrapper}>
-            <View style={styles.imageAndButtonWrapper}>
-            <View style={styles.imageWrapper}>
-                <Image source={{uri: item.image}}
-                style={styles.image}
-                resizeMode='contain'
-                />
-                </View>
-                <View>
-                    
-                    <TouchableOpacity style={styles.addButton}>
-                        <Text 
-                        style={styles.addButtonText} 
-                        onPress={() => checker(item) 
-                        ? removeFromFavouritesHandler(item) 
-                        : addFavouritesHandler(item)
-                        }> {checker(item) ? 'Remove item' : 'Add to Favourites'}</Text>
-                    </TouchableOpacity>
-
-                </View>
-            </View>
-            <View style={styles.textWrapper}>
-                 <Text style={styles.text}> {item.title} </Text>
-                 <Text style={styles.text}> {item.description} </Text>
-                 <Text style={styles.text}> {item.price} </Text>
-            </View>
+  
+    const renderItem = ({ item }) => (
+      <View style={styles.wrapper}>
+        <View style={styles.imageAndButtonWrapper}>
+          <View style={styles.imageWrapper}>
+            <Image
+              source={{ uri: item.imageUrl }}
+              style={styles.image}
+              resizeMode='contain'
+            />
+          </View>
+          <View>
+            <TouchableOpacity style={styles.addButton}>
+              <Text
+                style={styles.addButtonText}
+                onPress={() => checker(item)
+                  ? removeFromFavouritesHandler(item)
+                  : addFavouritesHandler(item)
+                }> {checker(item) ? 'Remove item' : 'Add to Favourites'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
+        <View style={styles.textWrapper}>
+            <View style={styles.text}>
+          <Text style={styles.title} > {item.title.rendered} </Text>
+          <Text style={styles.description}>{item.custom_fields.description} </Text>
+          <Text style={styles.price}> €{item.custom_fields.price} </Text>
+          </View>
+        </View>
+      </View>
     );
-    
+  
     return (
       <SafeAreaView style={styles.root}>
-      { loading ? (
-      <View style={styles.loadingContainer}> 
-       <ActivityIndicator size={'large'} color={'black'} /> 
-        </View>
-    ) : (
-    <FlatList data={products} 
-    keyExtractor={element => element.id} 
-    renderItem={renderItem}
-    />    
-    )}
-    
+        {loading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size={'large'} color={'black'} />
+          </View>
+        ) : (
+          <FlatList
+            data={products}
+            keyExtractor={element => element.id}
+            renderItem={renderItem}
+          />
+        )}
       </SafeAreaView>
     );
   };
-
-export default Home;
+  
+  export default Home;

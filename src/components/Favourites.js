@@ -70,7 +70,7 @@ const Favourites = () => {
       <View style={styles.wrapper}>
           <View style={styles.imageAndButtonWrapper}>
           <View style={styles.imageWrapper}>
-              <Image source={{uri: item.image}}
+              <Image source={{uri: item.acf.image}}
               style={styles.image}
               resizeMode='contain'
               />
@@ -84,9 +84,9 @@ const Favourites = () => {
               </View>
           </View>
           <View style={styles.textWrapper}>
-               <Text style={styles.text}> {item.title} </Text>
-               <Text style={styles.text}> {item.description} </Text>
-               <Text style={styles.text}> {item.price} </Text>
+               <Text style={styles.text}> {item.acf.title} </Text>
+               <Text style={styles.text}> {item.acf.description} </Text>
+               <Text style={styles.text}> {item.acf.price} </Text>
           </View>
       </View>
   );
